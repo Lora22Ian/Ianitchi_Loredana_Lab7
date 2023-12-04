@@ -36,6 +36,21 @@ public partial class ListPage : ContentPage
 
         listView.ItemsSource = await App.Database.GetListProductsAsync(shopl.ID);
     }
+    async void OnDeleteItemClicked(object sender, EventArgs e)
+    {
+        if (listView.SelectedItem != null)
+        {
+            var product = listView.SelectedItem as Product;
+            var result = await DisplayAlert("Delete Item", $"Are you sure you want to delete {product.Description}?", "Yes", "No");
+
+            if (result)
+            {
+                await App.Database.DeleteProductAsync(product);
+                listView.ItemsSource = await App.Database.GetProductsAsync();
+            }
+        }
+    }
+
 
 
 
